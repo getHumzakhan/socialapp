@@ -10,7 +10,5 @@ class SignupController extends Controller
 {
     public function signup(SignupRequest $request_data)
     {
-        $validated_data = $request_data->validated();
-        var_dump($validated_data);
     }
 }

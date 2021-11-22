@@ -24,8 +24,12 @@ class SignupRequest extends FormRequest
     public function rules()
     {
         return [
-            "email" => "required|email",
-            "password" => "required|min:3"
+            "name" => "required|not_regex:/[!@#$%^&*()_=+-\{\}\[\]\\,.\/?><:;']+/i",
+            "email" => "required|email:filter",
+            "password" => "required|min:8|alpha_dash|confirmed",
+            "jwt" => "present",
+            "verificationToken" => "present",
+            "isVerified" => "present"
         ];
     }
 }
