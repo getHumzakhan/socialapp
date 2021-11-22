@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class SignupRequest extends FormRequest
 {
+    protected $stopOnFirstFailure = true;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,12 +25,19 @@ class SignupRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|not_regex:/[!@#$%^&*()_=+-\{\}\[\]\\,.\/?><:;']+/i",
+            "name" => 'required|not_regex:/[#@$%^&*\/()_=+!<>;"{}\'?]/i|not_regex:/[0-9]/i',
             "email" => "required|email:filter",
             "password" => "required|min:8|alpha_dash|confirmed",
             "jwt" => "present",
             "verificationToken" => "present",
             "isVerified" => "present"
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.not_regex' => 'Special characters or integers not allowed in names',
         ];
     }
 }
