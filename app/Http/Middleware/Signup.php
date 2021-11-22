@@ -16,7 +16,6 @@ class Signup
      */
     public function handle(Request $request, Closure $next)
     {
-        echo $request->input('password');
         return $next($request);
     }
 }

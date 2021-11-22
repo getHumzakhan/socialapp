@@ -2,6 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use app\Http\Controllers\SignupController;
+use App\Http\Controllers\SignupController;
 
-Route::post('/signup', [SignupController::class, 'signup'])->middleware('signup');
+Route::post('/signup', [SignupController::class, 'signup']);
