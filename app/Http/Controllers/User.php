@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use \Illuminate\Http\Request;
 use \App\Http\Requests\SignupRequest;
+
 use \App\Notifications\SignupNotification as Notification;
 use \App\Services\Response\Api;
 use MongoDB;
@@ -44,5 +46,10 @@ class User extends Controller
     {
         $collection = (new MongoDB\Client)->socialapp->users;
         $collection->updateOne(['_id' => $user_id], ['$set' => ['isVerified' => true]]);
+    }
+
+    public function signin(Request $request_data)
+    {
+        //assign jwt to user
     }
 }
