@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use \App\Notifications\SignupNotification as Notification;
 
-use MongoDB;
+use MongoDB\Client as MongoDB;
 
 class Signin
 {
@@ -34,8 +34,8 @@ class Signin
         $email = $user_credentials->input('email');
         $password = $user_credentials->input('password');
 
-        $collection = (new MongoDB\Client)->socialapp->users;
-        $document = $collection->findOne(
+        $db = (new MongoDB())->socialapp;
+        $document = $db->users->findOne(
             ["email" => $email, "password" => $password],
             ["projection" => ["_id" => 1, "name" => 1, "email" => 1, "password" => 1, "isVerified" => 1, "verificationToken" => 1]],
         );
