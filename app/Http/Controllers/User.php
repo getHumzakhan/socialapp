@@ -23,8 +23,8 @@ class User extends Controller
 
     public function signup(SignupRequest $request_data)
     {
-        //Register User
         $document = $request_data->all();
+        //Register User
         $this->db->users->insertOne($document);
 
         //send email for account verification
