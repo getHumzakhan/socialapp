@@ -33,7 +33,7 @@ class User extends Controller
 
     public function verify_signup_token($token)
     {
-        $this->db->users->findOne(["verificationToken" => $token]);
+        $document = $this->db->users->findOne(["verificationToken" => $token]);
 
         if (isset($document['verificationToken'])) {
 
