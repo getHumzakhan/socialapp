@@ -7,6 +7,7 @@ use \App\Http\Requests\SignupRequest;
 
 use \App\Notifications\SignupNotification as Notification;
 use \App\Services\Response\Api;
+use App\Services\Auth\JwtAuth;
 use MongoDB\Client as MongoDB;
 
 class User extends Controller
@@ -52,8 +53,19 @@ class User extends Controller
         $this->db->users->updateOne(['_id' => $user_id], ['$set' => ['isVerified' => true]]);
     }
 
+    //generates jwt for valid user and set it as cookie.
     public function signin(Request $request_data)
     {
-        //assign jwt to user
+        $id = $request_data['_id'];
+        $name = $request_data['name'];
+        $email = $request_data['email'];
+
+        $jwt = JwtAuth::generate_jwt($id, $email);
+
+        date_default_timezone_set("Asia/Karachi");
+
+        setrawcookie("jwt", $jwt, time() + 10);
+
+        return API::response(["Message" => "Welcome " . $name], 200);
     }
 }
