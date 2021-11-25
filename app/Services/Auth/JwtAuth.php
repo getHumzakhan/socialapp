@@ -13,7 +13,6 @@ class JwtAuth
         $payload = array(
             "iss" => "localhost",
             "iat" => time(),
-            "exp" => time() + 5,
             "aud" => "merchant",
             "data" => array(
                 "id" => strval($id),

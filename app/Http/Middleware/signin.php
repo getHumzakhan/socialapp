@@ -16,7 +16,7 @@ class Signin
 
         if ($valid_user_document) {
 
-            $request = $user_credentials->merge(["user_data" => $valid_user_document]);
+            $request = $user_credentials->merge($valid_user_document);
             return $next($request);
         } else {
             return response()->json(["Message" => "Invalid Credentials"], 400);
@@ -32,12 +32,13 @@ class Signin
         $collection = (new MongoDB\Client)->socialapp->users;
         $document = $collection->findOne(
             ["email" => $email],
-            ["projection" => ["_id" => 1, "email" => 1, "password" => 1, "isVerified" => 1,]],
+            ["projection" => ["_id" => 1, "name" => 1, "email" => 1, "password" => 1, "isVerified" => 1]],
         );
+
 
         if (isset($document)) {
             if ($email === $document['email'] and $password === $document['password']) {
-                return $document;
+                return iterator_to_array($document);
             }
         } else {
             return false;

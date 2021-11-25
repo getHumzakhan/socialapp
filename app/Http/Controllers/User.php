@@ -50,13 +50,19 @@ class User extends Controller
         $collection->updateOne(['_id' => $user_id], ['$set' => ['isVerified' => true]]);
     }
 
+    //generates jwt for valid user and set it as cookie.
     public function signin(Request $request_data)
     {
-        $id = $request_data['user_data']->_id;
-        $email = $request_data['user_data']->email;
+        $id = $request_data['_id'];
+        $name = $request_data['name'];
+        $email = $request_data['email'];
+
         $jwt = JwtAuth::generate_jwt($id, $email);
+
         date_default_timezone_set("Asia/Karachi");
-        // echo "The time is " . date('h-i-sa');
+
         setrawcookie("jwt", $jwt, time() + 10);
+
+        return API::response(["Message" => "Welcome " . $name], 200);
     }
 }
