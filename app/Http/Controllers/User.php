@@ -7,7 +7,6 @@ use \App\Http\Requests\SignupRequest;
 
 use \App\Notifications\SignupNotification as Notification;
 use \App\Services\Response\Api;
-use App\Services\Auth;
 use App\Services\Auth\JwtAuth;
 use MongoDB\Client as MongoDB;
 
