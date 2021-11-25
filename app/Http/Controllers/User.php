@@ -7,6 +7,8 @@ use \App\Http\Requests\SignupRequest;
 
 use \App\Notifications\SignupNotification as Notification;
 use \App\Services\Response\Api;
+use App\Services\Auth;
+use App\Services\Auth\JwtAuth;
 use MongoDB;
 
 class User extends Controller
@@ -50,6 +52,11 @@ class User extends Controller
 
     public function signin(Request $request_data)
     {
-        //assign jwt to user
+        $id = $request_data['user_data']->_id;
+        $email = $request_data['user_data']->email;
+        $jwt = JwtAuth::generate_jwt($id, $email);
+        date_default_timezone_set("Asia/Karachi");
+        // echo "The time is " . date('h-i-sa');
+        setrawcookie("jwt", $jwt, time() + 10);
     }
 }
