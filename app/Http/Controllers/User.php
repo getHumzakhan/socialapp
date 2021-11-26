@@ -19,9 +19,9 @@ class User extends Controller
 
     public function signup(SignupRequest $request_data)
     {
-        $document = $request_data->all();
+        $user = $request_data->all();
         //Register User
-        $this->db->users->insertOne($document);
+        $this->db->users->insertOne($user);
 
         //send email for account verification
         $notification = $request_data->all();
@@ -33,11 +33,11 @@ class User extends Controller
 
     public function verify_signup_token($token)
     {
-        $document = $this->db->users->findOne(["verificationToken" => $token]);
+        $user = $this->db->users->findOne(["verificationToken" => $token]);
 
-        if (isset($document['verificationToken'])) {
+        if (isset($user['verificationToken'])) {
 
-            $this->set_verified_flag($document['_id']);
+            $this->set_verified_flag($user['_id']);
             return Api::response(["Message" => "Account Verfied"], 200);
         } else {
             return Api::response(["Message" => "Invalid Token"], 422);
