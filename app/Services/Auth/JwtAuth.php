@@ -20,7 +20,7 @@ class JwtAuth
             )
         );
 
-        $jwt = JWT::encode($payload, env('JWT_SECRET_KEY'));
+        $jwt = JWT::encode($payload, config('jwt.secret_key'));
         return $jwt;
 
         // $decoded_jwt = JWT::decode($jwt, new Key($_ENV['JWT_SECRET_KEY'], 'HS256'));
