@@ -9,6 +9,7 @@ use \App\Notifications\SignupNotification as Notification;
 use \App\Services\Response\Api;
 use App\Services\Auth\JwtAuth;
 use MongoDB\Client as MongoDB;
+use MongoDB\Operation\UpdateOne;
 
 class User extends Controller
 {
@@ -61,6 +62,7 @@ class User extends Controller
         $email = $request_data['email'];
 
         $jwt = JwtAuth::generate_jwt($id, $email);
+        $this->db->users->UpdateOne(['_id' => $id], ['$set' => ['jwt' => $jwt]]);
 
         date_default_timezone_set("Asia/Karachi");
 
