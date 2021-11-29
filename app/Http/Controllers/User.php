@@ -66,7 +66,7 @@ class User extends Controller
 
         date_default_timezone_set("Asia/Karachi");
 
-        setrawcookie("jwt", $jwt, time() + 10);
+        setrawcookie("jwt", $jwt, time() + 300);
 
         return API::response(["Message" => "Welcome " . $name], 200);
     }
