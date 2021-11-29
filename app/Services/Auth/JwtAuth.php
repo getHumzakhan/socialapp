@@ -26,6 +26,7 @@ class JwtAuth
         // $decoded_jwt = JWT::decode($jwt, new Key($_ENV['JWT_SECRET_KEY'], 'HS256'));
     }
 
+    //searches for provided jwt in DB and returns the respective user, else returns false
     public function verify_jwt($request)
     {
         $jwt = $request->header('Cookie');
