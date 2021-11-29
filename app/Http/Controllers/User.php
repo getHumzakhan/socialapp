@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\CreatePost;
 use \Illuminate\Http\Request;
 use \App\Http\Requests\SignupRequest;
 use \App\Http\Requests\CreatePostRequest;
@@ -71,8 +72,20 @@ class User extends Controller
         return API::response(["Message" => "Welcome " . $name], 200);
     }
 
+    //params: merged array having user id as _id and request data
+    //uploades file and stores its url in db
     public function create_post(CreatePostRequest $request_data)
     {
-        var_dump($request_data->all());
+        $user_id = strval($request_data['_id']);   //user id who is creating post
+        $text = $request_data['text'];
+        $file = $request_data->file('attachment');
+
+        $destinationPath = 'uploads/' . strval($request_data['_id']);
+        $file->move($destinationPath, $file->getClientOriginalName());
+        $url = $destinationPath . "/" . $file->getClientOriginalName();
+
+        $post = array("user_id" => $user_id, "text" => $text, "attachment" => base64_encode($url), "created_at" => date("d-m-y h-i-sa"));
+        $this->db->posts->insertOne($post);
+        return API::response(["Message" => "Post Successfully Created"], 200);
     }
 }

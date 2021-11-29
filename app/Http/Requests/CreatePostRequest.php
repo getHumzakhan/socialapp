@@ -16,7 +16,7 @@ class CreatePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'text' => 'string',
+            "text" => "string"
         ];
     }
 }

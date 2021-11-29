@@ -11,16 +11,16 @@ class CreatePost
 {
     public function handle(Request $create_post, Closure $next)
     {
-        $jwt = $create_post->header('Cookie');
+        $jwt = $create_post->header('cookie');
 
         if (isset($jwt)) {
 
+            $jwt = ltrim($jwt, "jwt=");
             $authorized_user = JwtAuth::verify($jwt);
 
             if ($authorized_user) {
-
                 $request = $create_post->merge($authorized_user);
-                return next($request);
+                return $next($request);
             } else {
                 return API::response(["Message" => "Unauthorized Request"], 401);
             }
