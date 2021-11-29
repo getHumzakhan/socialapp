@@ -27,12 +27,10 @@ class JwtAuth
     }
 
     //searches for provided jwt in DB and returns the respective user, else returns false
-    public function verify_jwt($request)
+    public static function verify($jwt)
     {
-        $jwt = $request->header('Cookie');
-
         $db = (new MongoDB())->socialapp;
-        $authorized_user = $db->users->findOne(['jwt' => $jwt], ['projection' => ['_id' => 1]]);
+        $authorized_user = $db->users->findOne(["jwt" => $jwt], ["projection" => ["_id" => 1]]);
 
         if (isset($authorized_user)) {
             return iterator_to_array($authorized_user);

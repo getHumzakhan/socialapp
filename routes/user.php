@@ -6,5 +6,5 @@ use App\Http\Controllers\User;
 
 Route::post('/signup', [User::class, 'signup']);
 Route::post('/verifyAccount/{token}', [User::class, 'verify_signup_token']);
-
 Route::post('/signin', [User::class, 'signin'])->middleware('signin');
+ROute::post('/create_post', [User::class, 'create_post'])->middleware('create_post');

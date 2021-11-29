@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use \Illuminate\Http\Request;
 use \App\Http\Requests\SignupRequest;
-
+use \App\Http\Requests\CreatePostRequest;
 use \App\Notifications\SignupNotification as Notification;
 use \App\Services\Response\Api;
 use App\Services\Auth\JwtAuth;
@@ -66,8 +66,14 @@ class User extends Controller
 
         date_default_timezone_set("Asia/Karachi");
 
-        setrawcookie("jwt", $jwt, time() + 10);
+        setrawcookie("jwt", $jwt, time() + 300);
 
         return API::response(["Message" => "Welcome " . $name], 200);
+    }
+
+    public function create_post(CreatePostRequest $request_data)
+    {
+        var_dump($request_data->all());
+        exit;
     }
 }
