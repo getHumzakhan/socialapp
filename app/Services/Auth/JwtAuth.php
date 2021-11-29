@@ -3,7 +3,7 @@
 namespace App\Services\Auth;
 
 use \Firebase\JWT\JWT;
-use \Firebase\JWT\Key;
+use MongoDB\Client as MongoDB;
 
 class JwtAuth
 {
@@ -24,5 +24,19 @@ class JwtAuth
         return $jwt;
 
         // $decoded_jwt = JWT::decode($jwt, new Key($_ENV['JWT_SECRET_KEY'], 'HS256'));
+    }
+
+    public function verify_jwt($request)
+    {
+        $jwt = $request->header('Cookie');
+
+        $db = (new MongoDB())->socialapp;
+        $authorized_user = $db->users->findOne(['jwt' => $jwt], ['projection' => ['_id' => 1]]);
+
+        if (isset($authorized_user)) {
+            return iterator_to_array($authorized_user);
+        } else {
+            return false;
+        }
     }
 }
