@@ -53,6 +53,5 @@ class Post extends Controller
         } else {
             return API::response(["Message" => "Post Not Found"], 404);
         }
-        // return API::response(["Message" => "Post Successfully Created"], 200);
     }
 }
