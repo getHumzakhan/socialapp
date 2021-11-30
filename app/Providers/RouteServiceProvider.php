@@ -49,7 +49,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/user.php'));
 
             Route::prefix('post')
-                // ->middleware('signup')
+                ->middleware('user_auth')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/post.php'));
 

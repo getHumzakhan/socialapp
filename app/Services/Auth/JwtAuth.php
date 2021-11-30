@@ -26,7 +26,7 @@ class JwtAuth
         // $decoded_jwt = JWT::decode($jwt, new Key($_ENV['JWT_SECRET_KEY'], 'HS256'));
     }
 
-    //searches for provided jwt in DB and returns the respective user, else returns false
+    //searches for provided jwt in DB and returns the respective user document, else returns false
     public static function verify($jwt)
     {
         $db = (new MongoDB())->socialapp;

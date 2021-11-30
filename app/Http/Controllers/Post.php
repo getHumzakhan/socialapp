@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Http\Requests\CreatePostRequest;
+use \App\Http\Requests\DeletePostRequest;
 use \App\Services\Response\API;
 use MongoDB\Client as MongoDB;
 
@@ -32,5 +33,26 @@ class Post extends Controller
         $post = array("user_id" => $user_id, "text" => $text, "attachment" => base64_encode($url), "created_at" => date("d-m-y h-i-sa"));
         $this->db->posts->insertOne($post);
         return API::response(["Message" => "Post Successfully Created"], 200);
+    }
+
+    public function delete(DeletePostRequest $request_data)
+    {
+        $post_id = $request_data['post_id'];   //post id that is to be deleted
+        $post_id = new \MongoDB\BSON\ObjectId($post_id);
+        $authentic_user_id = strval($request_data['_id']);       //user who wants to delete post
+
+        $post = $this->db->posts->findOne(["_id" => $post_id]);
+
+        if (isset($post)) {
+            if ($post->user_id === $authentic_user_id) {
+                $this->db->posts->deleteOne(['_id' => $post_id]);
+                return API::response(["Message" => "Post Deleted"], 200);
+            } else {
+                return API::response(["Message" => "Unauthorized Request"], 401);
+            }
+        } else {
+            return API::response(["Message" => "Post Not Found"], 404);
+        }
+        // return API::response(["Message" => "Post Successfully Created"], 200);
     }
 }
