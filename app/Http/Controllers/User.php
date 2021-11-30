@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Middleware\CreatePost;
 use \Illuminate\Http\Request;
 use \App\Http\Requests\SignupRequest;
-use \App\Http\Requests\CreatePostRequest;
 use \App\Notifications\SignupNotification as Notification;
 use \App\Services\Response\Api;
 use App\Services\Auth\JwtAuth;
 use MongoDB\Client as MongoDB;
-use MongoDB\Operation\UpdateOne;
 
 class User extends Controller
 {
@@ -67,25 +65,8 @@ class User extends Controller
 
         date_default_timezone_set("Asia/Karachi");
 
-        setrawcookie("jwt", $jwt, time() + 300);
+        setrawcookie("jwt", $jwt, time() + 300, "/");
 
         return API::response(["Message" => "Welcome " . $name], 200);
     }
-
-    //params: merged array having user id as _id and request data
-    //uploades file and stores its url in db
-    // public function create_post(CreatePostRequest $request_data)
-    // {
-    //     $user_id = strval($request_data['_id']);   //user id who is creating post
-    //     $text = $request_data['text'];
-    //     $file = $request_data->file('attachment');
-
-    //     $destinationPath = 'uploads/' . strval($request_data['_id']);
-    //     $file->move($destinationPath, $file->getClientOriginalName());
-    //     $url = $destinationPath . "/" . $file->getClientOriginalName();
-
-    //     $post = array("user_id" => $user_id, "text" => $text, "attachment" => base64_encode($url), "created_at" => date("d-m-y h-i-sa"));
-    //     $this->db->posts->insertOne($post);
-    //     return API::response(["Message" => "Post Successfully Created"], 200);
-    // }
 }
