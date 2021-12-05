@@ -41,7 +41,7 @@ class SignupVerification
 
         $mail_body = SignupVerification::get_mail_body($sender_email, $recipient_email, $recipient_name, $sub, $body);
 
-        $mj = new \Mailjet\Client('e56e3a3e223e0029f41c57bbdfd0dd47', 'e86d2a7e0d82e53a519943e2c2d0f944', true, ['version' => 'v3.1']);
+        $mj = new Client('e56e3a3e223e0029f41c57bbdfd0dd47', 'e86d2a7e0d82e53a519943e2c2d0f944', true, ['version' => 'v3.1']);
         $response = $mj->post(Resources::$Email, ['body' => $mail_body]);
         if ($response->success()) {
             return $response->getData();
