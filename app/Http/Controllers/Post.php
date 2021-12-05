@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use \App\Http\Requests\CreatePostRequest;
 use \App\Http\Requests\DeletePostRequest;
 use \App\Services\Response\API;
+use Illuminate\Support\Facades\File;
 use MongoDB\Client as MongoDB;
 
 class Post extends Controller
@@ -45,7 +46,11 @@ class Post extends Controller
 
         if (isset($post)) {
             if ($post->user_id === $authentic_user_id) {
+
                 $this->db->posts->deleteOne(['_id' => $post_id]);
+                $file_path = public_path() . '/' . base64_decode($post->attachment);
+                FILE::delete($file_path);
+
                 return API::response(["Message" => "Post Deleted"], 200);
             } else {
                 return API::response(["Message" => "Unauthorized Request"], 401);
